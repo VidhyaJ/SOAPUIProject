@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:testCase id="3e40f233-712e-4364-a9b2-3bdf90f12994" failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="TestCase 2" searchProperties="true" disabled="true" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:testStep type="request" id="57537f7c-fda6-46c5-aa73-79949e6c91b3" name="Add"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>CalculatorSoap</con:interface><con:operation>Add</con:operation><con:request name="Add" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="false" useWsReliableMessaging="false" wssPasswordType="" id="6e85e66e-5794-48f8-8059-14a1be92b91e"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://www.dneonline.com/calculator.asmx</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:tem="http://tempuri.org/">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <tem:Add>\r
+         <tem:intA>2</tem:intA>\r
+         <tem:intB>3</tem:intB>\r
+      </tem:Add>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:assertion type="SOAP Response" id="dd0b7fb2-acd7-4929-9ff5-88d1ab7df9e4" name="SOAP Response"/><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://tempuri.org/Add"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="groovy" name="Groovy Script" id="4e06d8c2-d4ca-46c9-8fca-d59a7dbb8bb5"><con:settings/><con:config><script>
+def response = testRunner.testCase.getTestStepByName('Add').getPropertyValue("response")
+def object = new XmlSlurper().parseText(response)
+
+def value = object.text()
+
+log.info '   value is : '+value
+
+testRunner.testCase.getTestStepByName('MyProperties').setPropertyValue('addResult', value)</script></con:config></con:testStep><con:testStep type="properties" name="MyProperties" id="03787791-fc3e-47df-8152-4eefe3877b32"><con:settings/><con:config xsi:type="con:PropertiesStep" saveFirst="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:properties><con:property><con:name>addResult</con:name><con:value>soap:ClientSystem.Web.Services.Protocols.SoapException: Server was unable to read request. ---> System.InvalidOperationException: Request format is invalid: Missing required soap:Body element.
+   at System.Web.Services.Protocols.SoapServerProtocol.ReadParameters()
+   --- End of inner exception stack trace ---
+   at System.Web.Services.Protocols.SoapServerProtocol.ReadParameters()
+   at System.Web.Services.Protocols.WebServiceHandler.CoreProcessRequest()</con:value></con:property></con:properties></con:config></con:testStep><con:testStep type="request" id="5b2d18b9-e3e6-44de-a67e-3b22a56fc4c3" name="Multiply"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>CalculatorSoap</con:interface><con:operation>Multiply</con:operation><con:request name="Multiply" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="false" useWsReliableMessaging="false" wssPasswordType="" id="3f686f08-85e8-4583-a6e5-20326689baea"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://www.dneonline.com/calculator.asmx</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:tem="http://tempuri.org/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <tem:Multiply>
+         <tem:intA>${MyProperties#addResult}</tem:intA>
+         <tem:intB>4</tem:intB>
+      </tem:Multiply>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:assertion type="SOAP Response" id="6a72f956-0f48-4a30-995a-71cbfe1a93a7" name="SOAP Response"/><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://tempuri.org/Multiply"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:tearDownScript>// Code to execute the GenerateCSVReport test step
+testRunner.testCase.testSuite.project.testSuites["Library"].testCases["Reporting_Utility"].
+testSteps["GenerateCSVReport"].run(testRunner, context);</con:tearDownScript><con:properties/><con:reportParameters/></con:testCase>

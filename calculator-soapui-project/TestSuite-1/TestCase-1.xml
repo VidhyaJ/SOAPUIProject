@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:testCase id="1a12b8ba-54d7-46e1-aa86-c182fb56e06e" failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="TestCase 1" searchProperties="true" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:testStep type="request" id="b5543b18-de63-490c-a20c-b893875966f3" name="Add"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>CalculatorSoap</con:interface><con:operation>Add</con:operation><con:request name="Add" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="false" useWsReliableMessaging="false" wssPasswordType="" id="6e85e66e-5794-48f8-8059-14a1be92b91e"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://www.dneonline.com/calculator.asmx</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:tem="http://tempuri.org/">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <tem:Add>\r
+         <tem:intA>2</tem:intA>\r
+         <tem:intB>3</tem:intB>\r
+      </tem:Add>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:assertion type="SOAP Response" id="dd0b7fb2-acd7-4929-9ff5-88d1ab7df9e4" name="SOAP Response"/><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://tempuri.org/Add"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="transfer" name="Property Transfer" id="d439d722-78a2-491d-8b67-05ff204bbd19"><con:settings/><con:config xsi:type="con:PropertyTransfersStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:transfers setNullOnMissingSource="true" transferTextContent="true" failOnError="true" ignoreEmpty="false" transferToAll="false" entitize="false" transferChildNodes="false"><con:name>TransferNumber</con:name><con:sourceType>Response</con:sourceType><con:sourceStep>Add</con:sourceStep><con:sourcePath>declare namespace soap='http://schemas.xmlsoap.org/soap/envelope/';
+declare namespace ns1='http://tempuri.org/';
+/*:Envelope/*:Body/*:AddResponse/*:AddResult
+</con:sourcePath><con:targetType>Request</con:targetType><con:targetStep>Multiply</con:targetStep><con:targetPath>declare namespace soap='http://schemas.xmlsoap.org/soap/envelope/';
+declare namespace ns1='http://tempuri.org/';
+/*:Envelope/*:Body/*:Multiply/*:intA</con:targetPath><con:upgraded>true</con:upgraded></con:transfers></con:config></con:testStep><con:testStep type="request" id="2b264869-f5b8-46a6-a68a-884e4b4695fd" name="Multiply"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>CalculatorSoap</con:interface><con:operation>Multiply</con:operation><con:request name="Multiply" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="false" useWsReliableMessaging="false" wssPasswordType="" id="3f686f08-85e8-4583-a6e5-20326689baea"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://www.dneonline.com/calculator.asmx</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:tem="http://tempuri.org/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <tem:Multiply>
+         <tem:intA/>
+         <tem:intB>4</tem:intB>
+      </tem:Multiply>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:assertion type="SOAP Response" id="6a72f956-0f48-4a30-995a-71cbfe1a93a7" name="SOAP Response"/><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://tempuri.org/Multiply"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="groovy" name="Groovy Script" disabled="true"><con:settings/><con:config><script>//log.info('Project ' + runner.getProject().getName() + ' TestRunner.Status = ' + runner.getStatus())
+
+log.info('Project ' + testRunner.getProject().getName() + ' TestRunner.Status = ' + testRunner.getStatus())
+
+/*runner.getResults().each{ testSuiteRunner ->
+
+	log.info('Test Suite ' + testSuiteRunner.getTestSuite().getName() + ' TestRunner.Status = ' + testSuiteRunner.getStatus())
+	
+	testSuiteRunner.getResults().each{ testCaseRunner ->
+	
+		log.info('Test Case ' + testCaseRunner.getTestCase().getName() + ' TestRunner.Status = ' + testCaseRunner.getStatus())
+
+		testCaseRunner.getResults().each{ testStepResult -> 
+			log.info('Test Step ' + testStepResult.getTestStep().getName() + ' TestStepResult.TestStepStatus = ' + testStepResult.getStatus())
+		}
+	}
+}*/</script></con:config></con:testStep><con:testStep type="groovy" name="Notes" id="30b60e3e-aa33-4fd5-9b33-73e957432199" disabled="true"><con:settings/><con:config><script>/*2 Ways
+ * 
+ * https://reqres.in/
+1st way : Property Transfer step
+
+Step 1 : Add the api requests in a test case
+
+Step 2 : Add property transfer step
+
+Step 3 : Create a new property transfer
+
+Step 4 : Provide source and target details
+
+Step 5 : Click on ns: and provide xpath for source and target
+
+2nd way : Groovy script
+
+def response = 
+testRunner.testCase.getTestStepByName('Add').getPropertyValue("response")
+
+def object = new XmlSlurper().parseText(response)
+
+def value = object.text()
+
+log.info '   value is : '+value
+
+testRunner.testCase.getTestStepByName('MyProperties').setPropertyValue('addResult', value)
+
+${MyProperties#addResult}
+
+References
+http://www.dneonline.com/calculator.a...
+Xml toolbox - http://xmltoolbox.appspot.com/xpath_g...
+Xml grid - https://xmlgrid.net/xpath.html
+xPather - http://xpather.com/
+Groovy XML Slurper - http://www.groovy-lang.org/processing-xml.html*/
+
+
+//Test Results
+https://community.smartbear.com/t5/SoapUI-Pro/How-to-get-result-of-all-test-steps-in-groovy-test-step-of-last/td-p/129126
+
+While this is not eaxctly what you asked, here is a project teardown script that iterates through all of its test suites, cases, and steps to get the results, this may point you in the right direction.
+
+ 
+
+log.info('Project ' + runner.getProject().getName() + ' TestRunner.Status = ' + runner.getStatus())
+
+runner.getResults().each{ testSuiteRunner ->
+
+	log.info('Test Suite ' + testSuiteRunner.getTestSuite().getName() + ' TestRunner.Status = ' + testSuiteRunner.getStatus())
+	
+	testSuiteRunner.getResults().each{ testCaseRunner ->
+	
+		log.info('Test Case ' + testCaseRunner.getTestCase().getName() + ' TestRunner.Status = ' + testCaseRunner.getStatus())
+
+		testCaseRunner.getResults().each{ testStepResult -> 
+			log.info('Test Step ' + testStepResult.getTestStep().getName() + ' TestStepResult.TestStepStatus = ' + testStepResult.getStatus())
+		}
+	}
+}</script></con:config></con:testStep><con:testStep type="groovy" name="Groovy Script_WriteResponsetoFile"><con:settings/><con:config><script>import groovy.json.JsonOutput;
+
+// 1. Create a "folder in project name" folder in the project path 
+      // Retrieve the project root folder
+      def projectPath = new com.eviware.soapui.support.GroovyUtils(context).projectPath
+      // Specify a folder inside project root to store the results
+      log.info "Project Path : " +projectPath
+      def projectname=testRunner.testCase.testSuite.project.name;
+      log.info "Project Name : "+projectname
+      
+      String folderPath = projectPath + "\\"+testRunner.testCase.testSuite.project.name+"_Results"
+      log.info folderPath
+      // Create a File object for the specified path
+      def resultFolder = new File(folderPath);
+      // Check for existence of folder and create a folder
+      if(!resultFolder.exists())
+      {
+        resultFolder.mkdirs();
+      }
+ 	 Date d = new Date();
+      def executionDate = d.format("dd-MMM-yyyy HH_mm");
+      // Create a File object for Report csv file (with timestamp)
+      
+      def reportFile = new File(resultFolder, "Report_"+executionDate+".txt");
+      // Check for existence of report file and create a file
+      if(!reportFile.exists())
+      {
+        reportFile.createNewFile();
+               
+      }
+// Connect to the test step in another project
+def prj = testRunner.testCase.testSuite.project
+testCase = prj.testSuites['TestSuite 1'].testCases['TestCase 1']
+
+     testCase.testStepList.each{
+	type = it.config.type
+	name = it.name
+	response = it.getPropertyValue("Response")
+	if((type == "restrequest")|| (type == "request")){
+		//def pretty = JsonOutput.prettyPrint(response);
+		//def responseFile="F://testing//"+name.toString()+"__response.txt";
+		//def rsfile = new File(responseFile);
+		reportFile.write(response, "UTF-8");
+	}
+}
+
+
+
+/*
+ * //Using context object retrieve the request of a soaprequest - AddRequest
+def req = context.expand('${AddRequest#request}')
+log.info req
+//Using context object retrieve the response of a soaprequest - AddRequest
+def res = context.expand('${AddRequest#response}')
+log.info res
+
+import com.eviware.soapui.support.GroovyUtils;
+def responseHolder = GroovyUtils.getXmlHolder( testRunner.testCase.testSteps["/your testStep"].testRequest.response.responseContent );
+*/
+
+</script></con:config></con:testStep><con:tearDownScript>// Code to execute the GenerateCSVReport test step
+testRunner.testCase.testSuite.project.testSuites["Library"].testCases["Reporting_Utility"].
+testSteps["GenerateCSVReport"].run(testRunner, context);</con:tearDownScript><con:properties/><con:reportParameters/></con:testCase>

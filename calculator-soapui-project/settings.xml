@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project id="9cecfca8-7e6b-4843-8d8c-faff6e6ac8dc" activeEnvironment="Default" name="RequestResponseChaining_XML" soapui-version="5.0.0" abortOnError="false" runType="SEQUENTIAL" resourceRoot="" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:requirements/><con:properties/><con:wssContainer/><con:databaseConnectionContainer/><con:oAuth2ProfileContainer/><con:oAuth1ProfileContainer/><con:afterRunScript/><con:sensitiveInformation/></con:soapui-project>
